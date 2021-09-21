@@ -19,7 +19,7 @@ app.use('/reviews', reviewsRouter);
 app.use('/theaters', theatersRouter);
 
 //movie_theaters route handler
-app.use('/movies_theaters', movieTheatersRouter);
+app.use('/movies-theaters', movieTheatersRouter);
 
 //critics route handler
 app.use('/critics', criticsRouter);
