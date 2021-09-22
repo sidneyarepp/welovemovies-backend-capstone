@@ -1,31 +1,31 @@
 const service = require('./movies.service');
 const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 
+
 //Initial check to see if the movieId provided exists in the database.
 async function movieExists(req, res, next) {
     const movie = await service.read(Number(req.params.movieId));
-    console.log(movie)
-    if (movie.length >= 1) {
+    if (movie) {
         res.locals.movie = movie;
         return next();
     }
-    next({
+    return next({
         status: 404,
         message: 'Movie cannot be found.'
-    })
+    });
 }
 
 //Function used to list all movies showing in the database.  If the user adds the query param of "is_showing=true" the function only returns the movies that are currently showing in theaters.
 async function list(req, res) {
-    const isShowingParam = req.query.is_showing;
+    const isShowing = req.query.is_showing;
 
-    if (isShowingParam) {
-        const movies = await service.listMoviesShowing();
-        res.json({ data: movies })
+    if (isShowing) {
+        const showingMovies = await service.listMoviesShowing();
+        res.json({ data: showingMovies })
     }
 
-    const movies = await service.list();
-    res.json({ data: movies });
+    const allMovies = await service.list();
+    res.json({ data: allMovies });
 }
 
 //Function used to return a specific movie if the user adds a router param of movieId.
@@ -46,7 +46,7 @@ async function movieReviews(req, res) {
 }
 
 module.exports = {
-    list: list,
+    list: asyncErrorBoundary(list),
     read: [asyncErrorBoundary(movieExists), read],
     movieTheatersShowingMovie: [asyncErrorBoundary(movieExists), asyncErrorBoundary(movieTheatersShowingMovie)],
     movieReviews: [asyncErrorBoundary(movieExists), asyncErrorBoundary(movieReviews)],
