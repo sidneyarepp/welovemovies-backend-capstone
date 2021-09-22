@@ -17,21 +17,26 @@ app.use('/reviews', reviewsRouter);
 //theaters route handler
 app.use('/theaters', theatersRouter);
 
-//Invalid found handler
+//Invalid route handler
 app.use((req, res, next) => {
-    return next({
+    next({
         status: 404,
         message: `Route ${req.originalUrl} is not a valid path.`
     });
 });
 
 //Error handler
-app.use((req, res) => {
+app.use((error, req, res, next) => {
     const {
         status = 500,
-        message = 'Something went wrong!',
+        message = 'Something went wrong!'
     } = error
     res.status(status).json({ error: message });
-})
+});
+
+
 
 module.exports = app;
+
+
+
