@@ -40,6 +40,7 @@ async function movieTheatersShowingMovie(req, res) {
     res.json({ data: theaters })
 }
 
+//Function to return all of the movie reviews for a specific movie if they provide the movieId in the url params.
 async function movieReviews(req, res) {
     const reviews = await service.movieReviews(Number(req.params.movieId));
     res.json({ data: reviews })
