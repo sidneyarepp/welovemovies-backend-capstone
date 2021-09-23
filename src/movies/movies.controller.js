@@ -28,13 +28,13 @@ async function list(req, res) {
     res.json({ data: allMovies });
 }
 
-//Function used to return a specific movie if the user adds a router param of movieId.
+//Function used to return a specific movie if the user adds a route param of /:movieId.
 function read(req, res) {
     const movie = res.locals.movie;
     res.json({ data: movie });
 }
 
-//Function used to return a list of theaters currently showing a movie when the user enters a movieId as a route parameter and also adds a query parameter of "is_showing=true"
+//Function used to return a list of theaters currently showing a movie when the user enters a movieId as a route parameter, /:movieId, and also adds a query parameter of "is_showing=true"
 async function movieTheatersShowingMovie(req, res) {
     const theaters = await service.movieTheatersShowingMovie(req.params.movieId);
     res.json({ data: theaters })

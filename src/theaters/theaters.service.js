@@ -1,6 +1,7 @@
 const knex = require('../db/connection');
 const reduceProperties = require('../utils/reduce-properties');
 
+//Variable utilizing the reduceProperties function found in the utils folder.  This is to help create an array called movies which contains objects representing each of the movies currently playing at the theater.
 const reduceMovies = reduceProperties(
     "theater_id",
     {
@@ -13,6 +14,7 @@ const reduceMovies = reduceProperties(
     }
 )
 
+//Funciton to return all of the theaters and the movies playing at each.  Before the information is provided to the end user the function utilizes the reduceMovies variable so each movie at the theater is shown in its own object.
 function list() {
     return knex('theaters')
         .join('movies_theaters', 'movies_theaters.theater_id', 'theaters.theater_id')
