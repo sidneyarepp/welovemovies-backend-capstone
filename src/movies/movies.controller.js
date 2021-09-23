@@ -4,7 +4,7 @@ const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 
 //Initial check to see if the movieId provided exists in the database.
 async function movieExists(req, res, next) {
-    const movie = await service.read(Number(req.params.movieId));
+    const movie = await service.read(req.params.movieId);
     if (movie) {
         res.locals.movie = movie;
         return next();
@@ -36,13 +36,13 @@ function read(req, res) {
 
 //Function used to return a list of theaters currently showing a movie when the user enters a movieId as a route parameter and also adds a query parameter of "is_showing=true"
 async function movieTheatersShowingMovie(req, res) {
-    const theaters = await service.movieTheatersShowingMovie(Number(req.params.movieId));
+    const theaters = await service.movieTheatersShowingMovie(req.params.movieId);
     res.json({ data: theaters })
 }
 
 //Function to return all of the movie reviews for a specific movie if they provide the movieId in the url params.
 async function movieReviews(req, res) {
-    const reviews = await service.movieReviews(Number(req.params.movieId));
+    const reviews = await service.movieReviews(req.params.movieId);
     res.json({ data: reviews })
 }
 
